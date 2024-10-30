@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Product;
-use App\Models\Sale;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('returned__products', function (Blueprint $table) {
+        Schema::create('returns', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(Sale::class);
+            $table->foreignIdFor(\App\Models\Sale::class);
             $table->foreignIdFor(Product::class);
             $table->integer('quantity');
-            $table->decimal('total', 8,2);
+            $table->decimal('price_at_purchase');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('returned__products');
+        Schema::dropIfExists('returns');
     }
 };
