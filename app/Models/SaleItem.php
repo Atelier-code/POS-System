@@ -11,11 +11,13 @@ class SaleItem extends Model
     /** @use HasFactory<\Database\Factories\SaleItemFactory> */
     use HasFactory, HasUuids;
 
-    protected function product(){
+    public $guarded =[];
+
+    public function product(){
         return $this->belongsTo(Product::class);
     }
 
-    protected function sale(){
+    public function sale(){
         return $this->belongsTo(Sale::class);
     }
 

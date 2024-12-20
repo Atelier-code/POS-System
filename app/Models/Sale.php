@@ -12,11 +12,14 @@ class Sale extends Model
     use HasFactory;
     use HasUuids;
 
-    protected function user (){
+    public $guarded =[];
+
+
+    public function user (){
         return $this->belongsTo(User::class);
     }
 
-    protected function saleItem (){
+    public function saleItem (){
         return $this->hasMany(SaleItem::class);
     }
 

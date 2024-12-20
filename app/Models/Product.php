@@ -16,12 +16,12 @@ class Product extends Model
 
     protected $guarded =[];
 
-    protected function saleItem()
+    public function saleItem()
     {
         return $this->hasMany(SaleItem::class);
     }
 
-    protected function returns()
+    public function returns()
     {
         return $this->hasMany(Returns::class);
     }

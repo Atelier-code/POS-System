@@ -6,6 +6,9 @@
         placeholder="{{$placeholder}}"
         class="ring-1 ring-slate-200 p-1 rounded-md focus:outline-none"
 {{--        @if($required) required @endif--}}
+        value="{{$value}}"
+        step="{{$step}}"
+        {{$attributes}}
     />
 
     @error($name)

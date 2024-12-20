@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('image')->default('https://placehold.co/600x400');
             $table->decimal('cost_price',8,2);
             $table->decimal('selling_price',8,2);
             $table->integer('quantity');

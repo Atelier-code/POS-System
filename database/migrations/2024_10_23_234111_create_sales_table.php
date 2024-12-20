@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->decimal('total',8,2);
             $table->enum('payment_method', ['cash', 'card', 'mobile']);
+            $table->decimal('sub_total',8,2);
+            $table->decimal('vat',8,2);
             $table->timestamps();
         });
     }

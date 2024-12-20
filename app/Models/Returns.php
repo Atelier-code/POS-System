@@ -11,7 +11,7 @@ class Returns extends Model
     /** @use HasFactory<\Database\Factories\ReturnsFactory> */
     use HasFactory , HasUuids;
 
-    protected function product()
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }

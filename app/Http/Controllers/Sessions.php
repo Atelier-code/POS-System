@@ -25,15 +25,11 @@ class Sessions extends Controller
 
 
             if (Auth::user()->role === 'cashier') {
-                return redirect()->route('cashier');
+                return redirect()->route('cashier.dashboard');
             }
 
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin');
-            }
-
-            if (Auth::user()->role === 'god') {
-                return redirect()->route('god');
+                return redirect()->route('dashboard');
             }
         }
 
@@ -42,6 +38,15 @@ class Sessions extends Controller
             'email' => 'Invalid credentials.',
             'password' => 'Invalid credentials.'
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 
 }

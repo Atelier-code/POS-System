@@ -1,5 +1,5 @@
 <x-app>
-    <div class="w-full h-screen flex justify-center items-center">
+    <div class="w-full h-screen flex justify-center items-center bg-white ">
         <div class="xl:w-[30%]  w-[50%] flex flex-col items-center">
             <h1 class="text-4xl text-orange-500 font-bold">Welcome Back</h1>
             <p class="text-slate-400">Enter your login credentials</p>
