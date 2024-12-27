@@ -7,7 +7,7 @@
             <!-- Logo and Search -->
             <div class="flex items-center w-1/3 gap-12">
                 <a href="/cashier/dashboard" class="text-2xl font-bold text-dark">
-                    STORE<span class="text-orange-500">POS</span>
+                    MIGHTY JESUS<span class="text-orange-500"> POS</span>
                 </a>
 
             </div>
