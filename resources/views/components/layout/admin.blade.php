@@ -7,7 +7,7 @@
 
             <div class="mt-5 flex justify-between items-center space-x-10">
                 <a href="/admin/dashboard" class="text-[2rem] font-bold">
-                   STORE<span class="text-orange-500">POS</span>
+                   MIGHTY JESUS <span class="text-orange-500"> POS</span>
                 </a>
 
                 <button class=" bg-gray-600 p-2 rounded-md lg:hidden" @click = 'show = false' >
