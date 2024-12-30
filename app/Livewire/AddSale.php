@@ -7,7 +7,7 @@ use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\WithPagination;
+
 
 class AddSale extends Component
 {
@@ -60,7 +60,8 @@ class AddSale extends Component
             return $item['id'] != $id;
         });
 
-        $this->updateTotals(); // Update totals after removing a product
+
+        $this->updateTotals();
     }
 
     public function decrementProduct($id)
@@ -71,10 +72,12 @@ class AddSale extends Component
                     $item['quantity']--;
                     $item['total'] = round($item['quantity'] * $item['selling_price'], 2);
                     $item['tax'] = round($item['total'] * ($item['tax_rate'] / 100), 2);
+
+                    $this->updateTotals(); // Update totals after decrement
                 } else {
                     $this->removeProduct($id);
                 }
-                $this->updateTotals(); // Update totals after decrement
+
                 return;
             }
         }
@@ -87,7 +90,7 @@ class AddSale extends Component
                 $item['quantity']++;
                 $item['total'] = round($item['quantity'] * $item['selling_price'], 2);
                 $item['tax'] = round($item['total'] * ($item['tax_rate'] / 100), 2);
-                $this->updateTotals(); // Update totals after increment
+                $this->updateTotals();
                 return;
             }
         }

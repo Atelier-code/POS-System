@@ -3,7 +3,7 @@
     @foreach($products as $index => $item)
         @if($index === 0)
             <div class="relative w-full">
-                <img src="{{ $item->image }}" alt="{{ $item->name }}" class="w-full object-cover">
+                <img src="{{ $item->image }}" alt="{{ $item->name }}" class="w-full object-cover h-[10rem]">
                 <div class="absolute top-0 left-0 bg-gradient-to-b from-white to-black/30 w-full h-full overflow-hidden">
                     <div class="bottom-3 absolute ml-2 flex items-center space-x-2">
                         <span class="ring-1 ring-white text-white p-1 px-3 rounded-md  max-h-[2rem]">{{$index+1}}</span>

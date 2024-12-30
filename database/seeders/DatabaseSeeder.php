@@ -25,11 +25,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'role' => 'admin',
         ]);
-/*
+
         Product::factory(60)->create();
         Sale::factory(20)->create();
         SaleItem::factory(100)->create();
         Returns::factory(20)->create();
-*/
+
     }
 }

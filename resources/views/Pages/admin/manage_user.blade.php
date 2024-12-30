@@ -71,7 +71,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
-                    title: 'Success!',
+                    title: 'Error!',
                     text: "{{ session('error') }}",
                     icon: 'error',
                     timer: 3000, // Closes the alert after 3 seconds (3000 ms)

@@ -38,7 +38,7 @@
                     <div class="p-2 space-y-2">
 
                         @foreach($products as $item)
-                            <a href="{{route(  auth()->user()->role == "admin" ? "admin.show.product" : "cashier.dashboard", $item->id)}}" class="rounded-md hover:bg-gray-100 flex items-center p-2">
+                            <a href="{{route(  auth()->user()->role == "admin" ? "admin.edit.product" : "cashier.dashboard", $item->id)}}" class="rounded-md hover:bg-gray-100 flex items-center p-2">
                                 <img class="h-10 w-10 object-cover rounded-full" src="{{$item->image}}"/>
                                 <div class="ml-2">
                                     <span class="font-xl">

@@ -7,8 +7,8 @@
             <header class="bg-white shadow sticky top-0 h-16 z-50 px-[5rem] flex items-center justify-between">
                 <!-- Logo and Search -->
                 <div class="flex items-center w-1/3 gap-12">
-                    <a href="/cashier/dashboard" class="text-2xl font-bold text-dark">
-                        MIGHTY Kephas<span class="text-orange-500"> POS</span>
+                    <a href="/cashier/dashboard" class="text-2xl font-bold text-dark text-center">
+                        MIGHTY JESUS<span class="text-orange-500"> POS</span>
                     </a>
 
                 </div>
@@ -22,14 +22,14 @@
                     </div>
                     <!-- Profile Image -->
                     <button class="focus:outline-none" @click="show = !show">
-                        <img src="https://placehold.co/400" alt="Profile Picture" class="w-12 h-12 rounded-full">
+                        <img src="{{asset(auth()->user()->image)}}" alt="Profile Picture" class="w-12 h-12 rounded-full object-cover">
                     </button>
                 </div>
 
                 <!-- Dropdown Menu -->
                 <div class="absolute top-[5rem] right-[5rem] w-72 p-4 bg-white rounded-md shadow-lg transform transition-all duration-300 ease-in-out"
                     x-show="show" x-cloak @click.outside="show = false">
-                    <a href="{{route(" cashier.dashboard")}}"
+                    <a href="{{route("cashier.dashboard")}}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="inline-block mr-2 bi bi-box-seam-fill" viewBox="0 0 16 16">
@@ -39,7 +39,7 @@
                         Dashboard
                     </a>
 
-                    <a href="{{route(" cashier.settings")}}"
+                    <a href="{{route("cashier.settings")}}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="inline-block bi bi-gear-fill mr-2" viewBox="0 0 16 16">

@@ -21,9 +21,17 @@ class CashierController extends Controller
         return view('pages.cashier.create_sale');
     }
 
+
+
     public  function settings()
     {
         return view('pages.cashier.settings');
+    }
+
+
+    public function changeProfilePic(Request $request)
+    {
+
     }
 
     public function resetPassword(Request $request)

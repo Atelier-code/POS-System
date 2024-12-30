@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class);
             $table->integer('quantity');
             $table->decimal('price_at_purchase');
+            $table->enum('reason', ['defective', 'wrong_size', 'changed_mind', 'other'])->default('other');
             $table->timestamps();
         });
     }

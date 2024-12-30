@@ -6,7 +6,7 @@
         <aside class="w-72 h-screen fixed z-[999] text-white bg-dark flex flex-col items-center p-2 -translate-x-80 lg:translate-x-0  duration-300 transition-all" x-bind:class ="show ? 'translate-x-0': '-translate-x-80'" >
 
             <div class="mt-5 flex justify-between items-center space-x-10">
-                <a href="/admin/dashboard" class="text-[2rem] font-bold">
+                <a href="/admin/dashboard" class="text-[2rem] font-bold p-3">
                    MIGHTY JESUS <span class="text-orange-500"> POS</span>
                 </a>
 
@@ -54,7 +54,7 @@
 
                 <x-nav-link
                     name="Sales"
-                    :active="request()->is('admin/sales')"
+                    :active="request()->is('admin/sales/manage')"
                     url="/admin/sales/manage"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-piggy-bank-fill" viewBox="0 0 16 16">
@@ -63,7 +63,20 @@
                 </x-nav-link>
 
 
-{{--                <x-nav-link--}}
+                <x-nav-link
+                    name="Returned Products"
+                    :active="request()->is('admin/show/returns')"
+                    url="/admin/show/returns"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+                    </svg>
+                </x-nav-link>
+
+
+
+
+                {{--                <x-nav-link--}}
 {{--                    name="Settings"--}}
 {{--                    :active="request()->is('admin/settings')"--}}
 {{--                    url="/admin/settings"--}}
@@ -75,15 +88,19 @@
 
             </div>
 
-            <a href="{{route('logout')}}" class="fixed bottom-5 text-white rounded-md bg-slate-800 w-60 p-2 shadow shadow-white flex justify-center items-center gap-x-2">
+            <div class="fixed bottom-5 space-y-5">
+                <livewire:daily-sale-button/>
+                <a href="{{route('logout')}}" class=" text-white rounded-md bg-slate-800 w-60 p-3 shadow shadow-white flex justify-center items-center gap-x-2">
                <span>
                    Logout
                </span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
-                    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-                </svg>
-            </a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
+                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                    </svg>
+                </a>
+
+            </div>
 
         </aside>
 
@@ -91,6 +108,8 @@
         <div class="lg:ml-72   bg-slate-100">
             <div class="bg-white shadow sticky top-0 h-[4rem] flex-1  z-[60] p-2 flex  items-center justify-between px-5">
                 <livewire:search/>
+
+
 
                 <div class="lg:hidden">
                     <button class="ring-1 ring-gray-300 p-1 rounded-md" @click="show = true">
@@ -105,7 +124,7 @@
                         <span class="text-md font-semibold">{{ auth()->user()->name }}</span>
                         <span class=" text-sm text-right -mt-1">{{auth()->user()->role}}</span>
                     </div>
-                    <img src="https://placehold.co/400" class="size-[3rem] rounded-full">
+                    <img src="{{asset(auth()->user()->image)}}" class="size-[3rem] rounded-full object-cover">
                 </div>
             </div>
 

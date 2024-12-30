@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Returns;
 use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -253,9 +254,24 @@ class AdminController extends Controller
         ]);
     }
 
-    public  function settings()
+    public function returns()
     {
-        return view('pages.admin.settings');
+
+        $total = Returns::with('product')
+        ->get()
+            ->reduce(function ($carry, $return) {
+                return $carry + ($return->quantity * $return->price_at_purchase * (100 + $return->product->tax_rate) / 100);
+            }, 0);
+
+        // Paginate the data
+        $data = Returns::with('product')->paginate(10);
+
+        // Return to the view
+        return view('pages.admin.show_returns', [
+            'returns' => $data,
+            'total' => $total
+        ]);
     }
+
 
 }

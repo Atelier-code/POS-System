@@ -1,5 +1,5 @@
 <x-layout.cashier>
-    <div class="mt-2 p-2 bg-white">
+    <div class=" bg-white">
         <div class="w-full flex flex-col xl:flex-row">
             <!-- Profile Image Section -->
             <div class="xl:w-1/3 w-full p-2">
