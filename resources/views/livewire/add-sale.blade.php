@@ -55,7 +55,7 @@
             @if(count($cartItems) > 0)
                 @foreach($cartItems as $cartItem)
                     <div class="w-full rounded-lg border-2 border-gray-100 p-3 mb-2  relative ">
-                        <button class="top-2 right-2 rounded-md absolute text-white bg-red-500 text-xs p-1" wire:click="removeProduct('{{$cartItem['id']}}')">
+                        <button class="top-2 right-2 rounded-md absolute text-white bg-red-500 text-xs p-1" wire:click="removeProduct('{{$cartItem['id']}}')" >
                             Remove
                         </button>
                         <div class="flex items-center justify-between">
@@ -73,7 +73,7 @@
                                     -
                                 </button>
                                 <p class="text-lg font-semibold text-gray-800">{{$cartItem['quantity']}}</p>
-                                <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 transition" wire:click="incrementProduct('{{$cartItem['id']}}')">
+                                <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 transition" wire:click="incrementProduct('{{$cartItem['id']}}')" >
                                     +
                                 </button>
                             </div>

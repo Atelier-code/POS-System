@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -23,8 +25,8 @@ class AddSale extends Component
         if (!$product) {
             $this->dispatch(
                 'alert',
-                    type: 'error',
-                    title:'Product not available'
+                type: 'error',
+                title:'Product not available'
 
             );
         } else {
@@ -132,8 +134,8 @@ class AddSale extends Component
         if($this->total <= 0){
             $this->dispatch(
                 'alert',
-                    type:'error',
-                    title:'Basket is empty'
+                type:'error',
+                title:'Basket is empty'
             );
 
             return false;
@@ -165,6 +167,28 @@ class AddSale extends Component
             ]);
         }
 
+        $pdf = PDF::loadView("exports.receipt", [
+            "items" => $this->cartItems,
+            "sale_id"=>$sale->id,
+            "total"=>$this->total,
+            "sub_total"=>$this->sub_total,
+            "tax"=>$this->tax,
+            "payment_option"=>$this->payment_option,
+        ])
+            ->setPaper('a4')
+            ->setOption([
+                'dpi' => 300, // Higher DPI for better clarity
+                'defaultFont' => 'sans-serif', // Clean and readable font
+                'margin-top' => 10, // Top margin for receipt header
+                'margin-right' => 10, // Right margin
+                'margin-bottom' => 10, // Bottom margin for footer or totals
+                'margin-left' => 10, // Left margin
+                'enable_html5_parser' => true, // Ensures modern HTML rendering
+            ]);
+        $alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
+
+
+
         $this->clearCart();
         $this->payment_option = null;
         $this->dispatch('alert',
@@ -172,6 +196,13 @@ class AddSale extends Component
             title:'Your sale has been created successfully'
         );
 
+        $randomString = implode('', array_rand(array_flip($alphabet), 3));
+
+        $pdfFilename = Carbon::now()->format('Y-m-d_H-i-s') . "_receipt_" . $randomString . ".pdf";
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, $pdfFilename);
 
     }
 
