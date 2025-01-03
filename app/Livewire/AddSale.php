@@ -66,37 +66,58 @@ class AddSale extends Component
         $this->updateTotals();
     }
 
-    public function decrementProduct($id)
+
+    public function updateQuantity($id, $quantity)
     {
-        foreach ($this->cartItems as &$item) {
-            if ($item['id'] == $id) {
-                if ($item['quantity'] > 1) {
-                    $item['quantity']--;
+        if ($quantity <= 0) {
+            $this->removeProduct($id);
+            return false;
+        }
+
+        $product = Product::find($id);
+
+        if (!$product) {
+            $this->dispatch(
+                'alert',
+                type: 'error',
+                title: 'Product not available'
+            );
+            return false;
+        }
+
+        if ($quantity > $product->quantity) {
+            $this->dispatch(
+                'alert',
+                type: 'error',
+                title: 'Product quantity cannot be more than what is in stock'
+            );
+
+            // Update the input to reflect the stock limit
+            foreach ($this->cartItems as &$item) {
+                if ($item['id'] == $id) {
+                    // Reset the quantity to the stock quantity if it exceeds available stock
+                    $item['quantity'] = $product->quantity;
                     $item['total'] = round($item['quantity'] * $item['selling_price'], 2);
                     $item['tax'] = round($item['total'] * ($item['tax_rate'] / 100), 2);
-
-                    $this->updateTotals(); // Update totals after decrement
-                } else {
-                    $this->removeProduct($id);
                 }
-
-                return;
             }
-        }
-    }
 
-    public function incrementProduct($id)
-    {
+            // Update totals after the reset
+            $this->updateTotals();
+            return false;
+        }
+
+        // If everything is valid, proceed with updating the quantity
         foreach ($this->cartItems as &$item) {
             if ($item['id'] == $id) {
-                $item['quantity']++;
+                $item['quantity'] = $quantity;
                 $item['total'] = round($item['quantity'] * $item['selling_price'], 2);
                 $item['tax'] = round($item['total'] * ($item['tax_rate'] / 100), 2);
                 $this->updateTotals();
-                return;
             }
         }
     }
+
 
     public function updateTotals()
     {

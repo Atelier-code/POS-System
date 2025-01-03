@@ -69,13 +69,16 @@
                         <div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg shadow-sm bg-white">
                             <!-- Quantity Controls -->
                             <div class="flex items-center gap-2">
-                                <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 transition" wire:click="decrementProduct('{{$cartItem['id']}}')">
-                                    -
-                                </button>
-                                <p class="text-lg font-semibold text-gray-800">{{$cartItem['quantity']}}</p>
-                                <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 transition" wire:click="incrementProduct('{{$cartItem['id']}}')" >
-                                    +
-                                </button>
+                                <input
+                                    type="number"
+                                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    wire:change="updateQuantity('{{$cartItem['id']}}',$event.target.value)"
+                                    value="{{$cartItem['quantity']}}"
+                                    aria-label="Update quantity"
+                                    step="1"
+                                    min="1"
+                                />
+
                             </div>
 
                             <!-- Price Display -->
