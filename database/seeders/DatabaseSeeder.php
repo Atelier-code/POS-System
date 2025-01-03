@@ -17,19 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        /*
-        User::factory(10)->create();
-        */
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'role' => 'admin',
-        ]);
-
-        Product::factory(60)->create();
-        Sale::factory(20)->create();
-        SaleItem::factory(100)->create();
-        Returns::factory(20)->create();
+//        /*
+//        User::factory(10)->create();
+//        */
+//        User::factory()->create([
+//            'name' => 'admin',
+//            'email' => 'admin@gmail.com',
+//            'role' => 'admin',
+//        ]);
+//
+//        Product::factory(60)->create();
+//        Sale::factory(20)->create();
+//        SaleItem::factory(100)->create();
+//        Returns::factory(20)->create();
 
     }
 }

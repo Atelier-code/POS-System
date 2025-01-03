@@ -188,6 +188,16 @@ class AddSale extends Component
         $alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
 
 
+        foreach ($sale->saleItem as $saleItem) {
+            $product = $saleItem->product;
+            if ($product) {
+                $product->quantity -= $saleItem->quantity;
+                $product->save();
+            }
+        }
+
+
+
 
         $this->clearCart();
         $this->payment_option = null;
