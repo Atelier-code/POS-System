@@ -22,7 +22,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/users/store', [AdminController::class, 'storeUser'])->name('admin.store.user');
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.edit.user');
     Route::patch('/admin/users/{user}/update', [AdminController::class, 'updateUser'])->name('admin.update.user');
-    Route::middleware("skipView")->get('/admin/users/{user}', [AdminController::class, 'showUser'])->name('admin.show.user');
+    Route::get('/admin/users/{user}', [AdminController::class, 'showUser'])->name('admin.show.user');
     Route::get('/admin/user/{user}/delete', [AdminController::class, 'destroyUser'])->name('admin.destroy.user');
 
     Route::get('/admin/products/manage', [AdminController::class, 'manageProducts'])->name('admin.manage.products');
@@ -41,11 +41,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 });
 
-
-Route::middleware(['auth', 'role:cashier'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/cashier/dashboard', [CashierController::class, 'dashboard'])->name('cashier.dashboard');
     Route::get("/cashier/sale/create", [CashierController::class, 'createSale'])->name('cashier.create.sale');
     Route::get("/cashier/sale/{sale}", \App\Livewire\ReturnView::class)->name('cashier.return');
+});
+
+Route::middleware(['auth', 'role:cashier'])->group(function () {
     Route::get("/cashier/settings", [CashierController::class, 'settings'])->name('cashier.settings');
     Route::post("/cashier/resetPassword", [CashierController::class, 'resetPassword'])->name('cashier.resetPassword');
 });

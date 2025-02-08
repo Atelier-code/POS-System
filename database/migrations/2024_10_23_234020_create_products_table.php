@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('selling_price',8,2);
             $table->integer('quantity');
             $table->decimal('tax_rate',8,2);
+            $table->integer('low_stock')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -158,6 +158,7 @@ class AdminController extends Controller
             'quantity' => 'required|integer|min:0',
             'tax_rate' => 'nullable|numeric|min:0|max:100', // Optional field
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB
+            'low_stock'=>'required'
         ]);
 
         // Handle image upload if provided
@@ -202,6 +203,7 @@ class AdminController extends Controller
             'quantity' => 'sometimes|integer|min:0',
             'tax_rate' => 'sometimes|numeric|min:0|max:100',
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB
+            'low_stock'=>'sometimes'
         ]);
 
         // Handle image upload if provided

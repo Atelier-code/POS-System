@@ -1,4 +1,4 @@
-<div class="bg-white rounded-md p-3 flex items-center space-x-6 relative overflow-x-auto scrollcustom" x-data="{show:false}">
+<div class="bg-white rounded-md p-3 flex items-center space-x-6 relative  scrollcustom" x-data="{show:false}">
 
 
     <div class="bg-orange-100 p-4 rounded-full">

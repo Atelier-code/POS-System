@@ -37,7 +37,7 @@
                     <td class="py-3 px-4">
                         <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded-md">
                     </td>
-                    <td class="py-3 px-4 text-xl">{{ $product->name }} @if($product->quantity < 15) <div class="text-red-500 text-sm">low stock alert</div> @else <div class="text-green-500 text-sm">Product in stock</div>  @endif</td>
+                    <td class="py-3 px-4 text-xl">{{ $product->name }} @if($product->quantity <= $product->low_stock) <div class="text-red-500 text-sm">low stock alert</div> @else <div class="text-green-500 text-sm">Product in stock</div>  @endif</td>
                     <td class="py-3 px-4">GH₵{{ number_format($product->cost_price, 2) }}</td>
                     <td class="py-3 px-4">GH₵{{ number_format($product->selling_price, 2) }}</td>
                     <td class="py-3 px-4">{{ $product->quantity }}</td>

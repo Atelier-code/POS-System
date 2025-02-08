@@ -19,7 +19,7 @@
         </div>
 
         <!-- Form Section -->
-        <div class="bg-white shadow-lg rounded-lg p-8">
+        <div class="bg-white shadow-lg rounded-lg p-8 w-full">
             <form class="lg:flex lg:space-x-8 space-y-6 lg:space-y-0" action="{{ route('admin.update.product', $product->id) }}" method="POST" enctype="multipart/form-data" id="editForm">
                 @method('PUT')
                 @csrf
@@ -43,10 +43,18 @@
                 <!-- Product Information Form -->
                 <div class="lg:w-1/2 space-y-6">
                     <x-input id="name" label="Product Name" name="name" type="text" placeholder="Product Name" value="{{ $product->name }}" />
-                    <x-input id="cost_price" label="Cost Price" name="cost_price" type="number" placeholder="0.00" value="{{ $product->cost_price }}" />
-                    <x-input id="selling_price" label="Selling Price" name="selling_price" type="number" placeholder="0.00" value="{{ $product->selling_price }}" />
-                    <x-input id="quantity" label="Quantity" name="quantity" type="number" placeholder="0" value="{{ $product->quantity }}" />
-                    <x-input id="tax_rate" label="Tax Rate (%)" name="tax_rate" type="number" placeholder="0.00" value="{{ $product->tax_rate }}" />
+                    <div class="flex item-center space-x-2">
+                        <x-input id="cost_price" label="Cost Price" name="cost_price" type="number" placeholder="0.00" value="{{ $product->cost_price }}" />
+                        <x-input id="selling_price" label="Selling Price" name="selling_price" type="number" placeholder="0.00" value="{{ $product->selling_price }}" />
+                    </div>
+
+                    <div class="flex item-center space-x-2">
+                        <x-input id="quantity" label="Quantity" name="quantity" type="number" placeholder="0" value="{{ $product->quantity }}" />
+                        <x-input id="tax_rate" label="Tax Rate (%)" name="tax_rate" type="number" placeholder="0.00" value="{{ $product->tax_rate }}" />
+                    </div>
+
+                    <x-input id="tax_rate" label="Low stock alert" name="low_stock" type="number" placeholder="0" value="{{$product->low_stock}}" />
+
                     <button type="submit" class="w-full py-3 bg-black text-white font-semibold rounded-lg shadow-md ">
                         Update Product
                     </button>

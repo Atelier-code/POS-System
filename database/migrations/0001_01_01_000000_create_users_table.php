@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image');
+            $table->integer('points')->default(0);
             $table->enum('role', ['admin', 'cashier'])->default('cashier');
             $table->rememberToken();
             $table->timestamps();

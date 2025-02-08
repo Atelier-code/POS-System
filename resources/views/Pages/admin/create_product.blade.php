@@ -38,17 +38,26 @@
                     <!-- Product Name -->
                     <x-input id="name" label="Product Name" name="name" type="text" placeholder="Product Name" :required="true" />
 
-                    <!-- Cost Price -->
-                    <x-input id="cost_price" label="Cost Price" name="cost_price" type="number" placeholder="0.00" :required="true"  />
 
-                    <!-- Selling Price -->
-                    <x-input id="selling_price" label="Selling Price" name="selling_price" type="number" placeholder="0.00" :required="true"/>
+                    <div class="flex item-center space-x-2">
+                        <!-- Cost Price -->
+                        <x-input id="cost_price" label="Cost Price" name="cost_price" type="number" placeholder="0.00" :required="true"  />
 
-                    <!-- Quantity -->
-                    <x-input id="quantity" label="Quantity" name="quantity" type="number" placeholder="0" :required="true" />
+                        <!-- Selling Price -->
+                        <x-input id="selling_price" label="Selling Price" name="selling_price" type="number" placeholder="0.00" :required="true"/>
 
-                    <!-- Tax Rate -->
-                    <x-input id="tax_rate" label="Tax Rate (%)" name="tax_rate" type="number" placeholder="0.00" :required="true" />
+                    </div>
+
+                    <div class="flex item-center space-x-2">
+                        <!-- Quantity -->
+                        <x-input id="quantity" label="Quantity" name="quantity" type="number" placeholder="0" :required="true" />
+
+                        <!-- Tax Rate -->
+                        <x-input id="tax_rate" label="Tax Rate (%)" name="tax_rate" type="number" placeholder="0.00" :required="true" />
+
+                    </div>
+
+                    <x-input id="tax_rate" label="Low stock alert" name="low_stock" type="number" placeholder="0" :required="true" />
 
 
                     <button type="submit" class="w-full py-3 bg-gray-800 text-white font-semibold rounded-lg ">

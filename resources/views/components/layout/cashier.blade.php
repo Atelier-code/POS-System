@@ -15,6 +15,11 @@
 
                 <!-- User Info -->
                 <div class="flex items-center space-x-4">
+                    @if(auth()->user()->role ==="admin")
+                        <a href="{{route("dashboard")}}" class="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 ease-in-out">
+                            Admin Dashboard
+                        </a>
+                    @endif
                     <!-- User Details -->
                     <div class="hidden lg:flex flex-col text-right">
                         <span class="text-md font-semibold">{{ auth()->user()->name }}</span>

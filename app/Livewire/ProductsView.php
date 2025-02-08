@@ -47,8 +47,9 @@ class ProductsView extends Component
 
     public function lowStock()
     {
-        return Product::where('quantity', '<', 15)->paginate($this->perPage);
+        return Product::whereColumn('quantity', '<=', 'low_stock')->paginate($this->perPage);
     }
+
 
     public function top()
     {

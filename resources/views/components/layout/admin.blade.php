@@ -120,11 +120,17 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
+                    <a href="{{ route('cashier.dashboard') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 ease-in-out">
+                        Cashier Dashboard
+                    </a>
+
                     <div class="lg:flex flex-col hidden ">
                         <span class="text-md font-semibold">{{ auth()->user()->name }}</span>
                         <span class=" text-sm text-right -mt-1">{{auth()->user()->role}}</span>
                     </div>
                     <img src="{{asset(auth()->user()->image)}}" class="size-[3rem] rounded-full object-cover">
+
+
                 </div>
             </div>
 
