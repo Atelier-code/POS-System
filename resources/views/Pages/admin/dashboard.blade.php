@@ -9,12 +9,13 @@
         </div>
 
         <div class="w-full p-2 mt-4 flex  max-lg:flex-col gap-4">
-            <livewire:revenue-chart/>
+            <livewire:top-employees/>
             <livewire:top-products/>
         </div>
 
         <div class="w-full p-2 mt-4 overflow-x-auto">
-            <livewire:top-employees/>
+
+            <livewire:revenue-chart/>
         </div>
 
 

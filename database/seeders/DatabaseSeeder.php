@@ -21,14 +21,14 @@ class DatabaseSeeder extends Seeder
 //        User::factory(10)->create();
 //        */
 //        User::factory()->create([
-//            'name' => 'admin',
-//            'email' => 'admin@gmail.com',
+//            'name' => 'Kephas Tetteh',
+//            'email' => 'tettehkephas@gmail.com',
 //            'role' => 'admin',
 //        ]);
-//
+////
 //        Product::factory(60)->create();
-//        Sale::factory(20)->create();
-//        SaleItem::factory(100)->create();
+       Sale::factory(10)->create();
+        SaleItem::factory(50)->create();
 //        Returns::factory(20)->create();
 
     }

@@ -1,4 +1,5 @@
-<div class="p-2 rounded-md bg-white lg:w-[75%] w-full ">
+<div class="{{ $userId ? 'w-[65%]' : 'w-full' }} bg-white p-6 rounded-lg">
+
     <canvas id="myChart"></canvas>
 </div>
 
@@ -20,7 +21,7 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Revenue in last 12 months',
+                label: 'Revenue in last 7 days',
                 data: value,
                 borderWidth: 1
             }]
