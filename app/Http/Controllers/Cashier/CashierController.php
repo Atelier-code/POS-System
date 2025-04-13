@@ -21,6 +21,11 @@ class CashierController extends Controller
         return view('pages.cashier.create_sale');
     }
 
+    public function viewLeadershipBoard()
+    {
+        return view('pages.leaderboard');
+    }
+
 
 
     public  function settings()
@@ -56,6 +61,8 @@ class CashierController extends Controller
         // Optional: Add a success message
         return back()->with('success', 'Password updated successfully!');
     }
+
+
 
 
 

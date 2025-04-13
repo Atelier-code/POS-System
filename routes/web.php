@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cashier/dashboard', [CashierController::class, 'dashboard'])->name('cashier.dashboard');
     Route::get("/cashier/sale/create", [CashierController::class, 'createSale'])->name('cashier.create.sale');
     Route::get("/cashier/sale/{sale}", \App\Livewire\ReturnView::class)->name('cashier.return');
+    Route::get("/leaderboard", [CashierController::class, 'viewLeadershipBoard'])->name('leaderboard');
 });
 
 Route::middleware(['auth', 'role:cashier'])->group(function () {

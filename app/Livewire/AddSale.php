@@ -179,6 +179,10 @@ class AddSale extends Component
             'payment_method' => $this->payment_option,
         ]);
 
+        $user = Auth::user();
+        $user->points += floor($sale->total) * 10;
+        $user->save();
+
         foreach ($this->cartItems as $item) {
             $saleItem = SaleItem::create([
                 'sale_id' => $sale->id,

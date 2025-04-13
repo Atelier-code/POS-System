@@ -23,19 +23,19 @@
 
     <div class="flex flex-col lg:flex-row gap-8">
         <!-- Sidebar Section -->
-        <aside class="w-full lg:w-1/4 space-y-6">
+        <aside class="w-full lg:w-[35%] space-y-6">
             <!-- Seller Card -->
                 <livewire:rank-card id="{{auth()->user()->id}}" />
             <!-- Stats Section -->
             <div class="space-y-6">
                 <livewire:total-revenue-card id="{{auth()->user()->id}}" />
                 <livewire:total-sales-card id="{{auth()->user()->id}}" />
-                <livewire:total-return-card  />
+                <livewire:display-points  />
             </div>
         </aside>
 
         <!-- Main Content Section -->
-        <main class="w-full lg:w-3/4 bg-white rounded-md shadow-md">
+        <main class="w-full lg:w-3/4 bg-white rounded-md ">
             <div class="flex flex-col gap-6">
                 <!-- Revenue Chart -->
                 <section class="w-full">

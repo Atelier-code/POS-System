@@ -53,6 +53,17 @@
                         </svg>
                         Settings
                     </a>
+
+                    <a href="{{ route('leaderboard') }}"
+                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="inline-block bi bi-trophy-fill mr-2" viewBox="0 0 16 16">
+                            <path d="M2 1a1 1 0 0 0-1 1v2a3 3 0 0 0 2.5 2.959 5.979 5.979 0 0 0 2.496 2.36 4 4 0 1 0 4.008 0 5.979 5.979 0 0 0 2.496-2.36A3 3 0 0 0 15 4V2a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1v1H4V2a1 1 0 0 0-1-1H2zm11 3a2 2 0 0 1-1.584 1.96A6.973 6.973 0 0 0 8 8.917 6.973 6.973 0 0 0 4.584 5.96 2 2 0 0 1 3 4V3h10v1z"/>
+                        </svg>
+                        Leader Board
+                    </a>
+
+
                     <a href="{{route('logout')}}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

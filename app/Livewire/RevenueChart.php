@@ -66,42 +66,33 @@ class RevenueChart extends Component
 
     public function getLast7DaysSales()
     {
-        $currentDay = Carbon::now();
-        $days = [];
+        $days = collect();
+        $now = Carbon::now();
 
-        for ($i = 0; $i < 7; $i++) {
-            $dayName = $currentDay->format('D');
-            $days[$dayName] = 0;
-            $currentDay->subDay();
+        // Pre-fill last 7 days with zero totals
+        for ($i = 6; $i >= 0; $i--) {
+            $date = $now->copy()->subDays($i);
+            $label = $date->format('D'); // e.g. Mon, Tue
+            $days->put($label, 0);
         }
 
-        $salesQuery = Sale::whereBetween('created_at', [Carbon::now()->subDays(7)->startOfDay(), Carbon::now()->endOfDay()])
+        $salesQuery = Sale::whereBetween('created_at', [
+            Carbon::now()->subDays(6)->startOfDay(),
+            Carbon::now()->endOfDay()
+        ])
             ->when($this->userId, fn($query) => $query->where('user_id', $this->userId));
 
-        if (DB::getDriverName() == 'pgsql') {
-            $sales = $salesQuery->selectRaw('TO_CHAR(created_at, \'Dy\') as day, SUM(total) as total')
-                ->groupBy('day')
-                ->orderByRaw("MIN(created_at) ASC")
-                ->get();
-        } else {
-            $sales = $salesQuery->selectRaw('strftime("%w", created_at) as day, SUM(total) as total')
-                ->groupBy('day')
-                ->orderByRaw("MIN(created_at) ASC")
-                ->get();
-        }
-
+        $sales = $salesQuery->get();
 
         foreach ($sales as $sale) {
-
-            $dayName = Carbon::createFromFormat('w', $sale->day)->format('D');
-            $days[$dayName] = $sale->total;
+            $label = Carbon::parse($sale->created_at)->format('D');
+            $days[$label] += $sale->total;
         }
 
-        // Reverse so the order is from the oldest day to the newest
-        $this->monthlySales = collect(array_reverse($days))
-            ->map(fn($total, $day) => ['month' => $day, 'total' => $total])
-            ->values()
-            ->toArray();
+        $this->monthlySales = $days->map(fn($total, $day) => [
+            'month' => $day,
+            'total' => $total
+        ])->values()->toArray();
     }
 
 
