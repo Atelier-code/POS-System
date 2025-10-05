@@ -1,53 +1,86 @@
 <x-layout.admin>
-    <div class="container mx-auto">
-        <div class="flex items-center justify-between p-2 mb-5">
-            <h2 class="text-2xl font-semibold text-gray-800">User List</h2>
-
-            <a href="{{route('admin.create.users')}}" class="p-2 bg-gray-800 text-white rounded-md px-5 flex items-center space-x-2 run dev">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle font-bold" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+    <div class="space-y-6">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Manage Users</h1>
+                <p class="text-gray-600 mt-1">View and manage all team members</p>
+            </div>
+            
+            <a href="{{route('admin.create.users')}}" class="inline-flex items-center px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-lg shadow-sm transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
-                <span class="text-xl">Add</span>
+                Add User
             </a>
         </div>
 
-        <!-- User Table -->
-        <div class="overflow-x-auto w-full xl:h-[35rem] rounded-lg scrollcustom ">
-            <table class="w-full bg-white border border-gray-200 rounded-lg shadow-md ">
-                <thead class="bg-gray-800 ">
-                <tr>
-                    <th class="py-4 px-6 text-left text-sm font-semibold text-white">Employee</th>
-                    <th class="py-4 px-6 text-left text-sm font-semibold text-white">Email</th>
-                    <th class="py-4 px-6 text-left text-sm font-semibold text-white">Role</th>
-                    <th class="py-4 px-6 text-left text-sm font-semibold text-white">Created At</th>
-                    <th class="py-4 px-6 text-left text-sm font-semibold text-white">Actions</th>
-                </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                @foreach($users as $user)
-                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                        <td class="py-4 px-6 text-sm text-gray-800 flex items-center space-x-4">
-                            <img src="{{ asset($user->image) }}" alt="{{ $user->name }}" class="w-10 h-10 object-cover rounded-full border border-gray-300">
-                            <span> {{ $user->name }}</span>
-                        </td>
-                        <td class="py-4 px-6 text-sm text-gray-600">{{ $user->email }}</td>
-                        <td class="py-4 px-6 text-sm text-gray-600">{{ ucfirst($user->role) }}</td>
-                        <td class="py-4 px-6 text-sm text-gray-600">{{ \Carbon\Carbon::parse($user->created_at)->format('d M, Y') }}</td>
-
-                        <td class="py-4 px-6 ">
-                           <a href="{{route('admin.show.user', $user->id)}}" class="p-2 bg-gray-800 w-full rounded-md text-white ">
-                               View
-                           </a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <!-- Modern Data Table -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($users as $user)
+                            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full object-cover border border-gray-200" 
+                                                 src="{{ asset($user->image) }}" 
+                                                 alt="{{ $user->name }}">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $user->email }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                        {{ $user->role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
+                                        {{ ucfirst($user->role) }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ \Carbon\Carbon::parse($user->created_at)->format('M d, Y') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex items-center justify-end space-x-2">
+                                        <a href="{{route('admin.show.user', $user->id)}}" 
+                                           class="text-slate-600 hover:text-slate-900 transition-colors">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                            </svg>
+                                        </a>
+                                        <a href="{{route('admin.edit.user', $user->id)}}" 
+                                           class="text-slate-600 hover:text-slate-900 transition-colors">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Pagination -->
-        <div class="mt-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
             {{ $users->links() }}
         </div>
     </div>

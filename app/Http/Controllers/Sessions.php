@@ -19,10 +19,11 @@ class Sessions extends Controller
             'password' => 'required'
         ]);
 
+        $credentials = $request->only('email', 'password');
+        $remember = $request->boolean('remember');
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-
 
             if (Auth::user()->role === 'cashier') {
                 return redirect()->route('cashier.dashboard');
@@ -32,7 +33,6 @@ class Sessions extends Controller
                 return redirect()->route('dashboard');
             }
         }
-
 
         return redirect()->back()->withErrors([
             'email' => 'Invalid credentials.',

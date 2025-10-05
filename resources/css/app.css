@@ -24,3 +24,45 @@
     background-color: white; /* Darker color on hover */
 }
 
+/* Product Cards Custom Styles */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Custom animations for product cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-card {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+/* Smooth transitions for filter buttons */
+.filter-button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-button:hover {
+    transform: translateY(-1px);
+}
+
+/* Custom gradient for action buttons */
+.gradient-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-blue:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+

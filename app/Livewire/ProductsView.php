@@ -11,8 +11,9 @@ class ProductsView extends Component
 {
     use WithPagination;
 
-    public $perPage = 10; // Define the number of items per page.
-    public $viewType = 'all'; // Default view is low stock.
+    public $perPage = 12; // Define the number of items per page.
+    public $viewType = 'all'; // Default view is all products.
+    public $search = ''; // Search term for filtering products.
 
     public function mount()
     {
@@ -21,22 +22,29 @@ class ProductsView extends Component
 
     public function render()
     {
+        // Start with base query
+        $query = Product::query();
+
+        // Apply search filter if search term exists
+        if (!empty($this->search)) {
+            $query->where('name', 'like', '%' . $this->search . '%');
+        }
+
         // Logic to load products based on the view type
         switch ($this->viewType) {
             case 'lowStock':
-                $products = $this->lowStock();
+                $products = $query->whereColumn('quantity', '<=', 'low_stock')->paginate($this->perPage);
                 break;
             case 'top':
-                $products = $this->top();
+                $products = $this->getTopProducts($query);
                 break;
             case 'recentlyAdded':
-                $products = $this->recentlyAdded();
+                $products = $query->orderBy('created_at', 'desc')->paginate($this->perPage);
                 break;
             case 'all':
-                $products = Product::paginate($this->perPage);
-                break;
             default:
-                $products = $this->all();
+                $products = $query->orderBy('created_at', 'desc')->paginate($this->perPage);
+                break;
         }
 
         // Return the view with the products data
@@ -45,33 +53,57 @@ class ProductsView extends Component
         ]);
     }
 
-    public function lowStock()
+    private function getTopProducts($baseQuery)
     {
-        return Product::whereColumn('quantity', '<=', 'low_stock')->paginate($this->perPage);
+        // If search is active, we need to handle the join differently
+        if (!empty($this->search)) {
+            // For search with top products, we'll show products that match search and have sales
+            return Product::select('products.*')
+                ->join('sale_items', 'products.id', '=', 'sale_items.product_id')
+                ->join('sales', 'sales.id', '=', 'sale_items.sale_id')
+                ->whereBetween('sale_items.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->where('products.name', 'like', '%' . $this->search . '%')
+                ->selectRaw('SUM(sale_items.quantity) as total_sales_quantity')
+                ->groupBy('products.id')
+                ->orderByDesc('total_sales_quantity')
+                ->paginate($this->perPage);
+        } else {
+            // Original top products logic
+            return Product::select('products.*')
+                ->join('sale_items', 'products.id', '=', 'sale_items.product_id')
+                ->join('sales', 'sales.id', '=', 'sale_items.sale_id')
+                ->whereBetween('sale_items.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->selectRaw('SUM(sale_items.quantity) as total_sales_quantity')
+                ->groupBy('products.id')
+                ->orderByDesc('total_sales_quantity')
+                ->paginate($this->perPage);
+        }
     }
 
-
-    public function top()
-    {
-        return Product::select('products.*')
-            ->join('sale_items', 'products.id', '=', 'sale_items.product_id')
-            ->join('sales', 'sales.id', '=', 'sale_items.sale_id')
-            ->whereBetween('sale_items.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->selectRaw('SUM(sale_items.quantity) as total_sales_quantity')
-            ->groupBy('products.id')
-            ->orderByDesc('total_sales_quantity')
-            ->paginate($this->perPage);
-    }
-
-    public function recentlyAdded()
-    {
-        return Product::orderBy('created_at', 'desc')->paginate($this->perPage);
-    }
-
-    // Optionally, use this method to change the view type.
+    // Method to change the view type.
     public function setViewType($type)
     {
         $this->viewType = $type;
+        $this->resetPage(); // Reset pagination when changing view type
         // The render method will be automatically called when the component is updated.
+    }
+
+    // Method to clear search
+    public function clearSearch()
+    {
+        $this->search = '';
+        $this->resetPage();
+    }
+
+    // Method to update per page
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
+    // Method to update search
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
 }
