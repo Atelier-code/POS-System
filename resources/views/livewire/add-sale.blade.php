@@ -2,51 +2,71 @@
 
     <div class="w-full p-6 bg-white  rounded-lg">
         <h1 class="text-3xl font-bold text-gray-900">Sale Summary</h1>
-
         <div class="flex w-full gap-x-10">
             <div class=" mt-3  h-full w-2/3 overflow-y-auto scrollcustom border border-gray-200 rounded-lg p-2 overflow-x-hidden">
                 @if(count($cartItems) > 0)
                     @foreach($cartItems as $cartItem)
-                        <div class="w-full rounded-lg border-2 border-gray-100 p-3 mb-2  relative ">
-                            <button class="top-2 right-2 rounded-md absolute text-white bg-red-500 text-xs p-1" wire:click="removeProduct('{{$cartItem['id']}}')" >
-                                Remove
+                        <div class="w-full rounded-xl border border-gray-200 bg-white p-4 mb-4 shadow-sm relative hover:shadow-md transition" wire:key="{{ $cartItem['id'] }}">
+                            <!-- Remove Button -->
+                            <button
+                                class="absolute top-3 right-3 text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-md shadow-sm transition"
+                                wire:click="removeProduct('{{ $cartItem['id'] }}')"
+                            >
+                                ✕ Remove
                             </button>
-                            <div class="flex items-center justify-between">
+
+                            <!-- Product Info -->
+                            <div class="flex items-center justify-between mb-3">
                                 <div class="flex items-center gap-4">
-                                    <img src="{{asset($cartItem['image'])}}" class="size-[4rem] rounded-md">
-                                    <p class="text-lg">{{$cartItem['name']}}</p>
+                                    <img
+                                        src="{{ asset($cartItem['image']) }}"
+                                        alt="{{ $cartItem['name'] }}"
+                                        class="w-16 h-16 rounded-lg border border-gray-200 object-cover"
+                                    >
+                                    <div>
+                                        <p class="text-lg font-semibold text-gray-800">{{ $cartItem['name'] }}</p>
+                                        <p class="text-sm text-gray-500">GH₵{{ number_format($cartItem['selling_price'], 2) }} each</p>
+                                    </div>
                                 </div>
-                                GH₵{{ number_format($cartItem['selling_price'], 2) }}
                             </div>
 
-                            <div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg shadow-sm bg-white">
+                            <!-- Quantity & Total -->
+                            <div class="flex items-center justify-between border border-gray-200 rounded-lg p-3 bg-gray-50">
                                 <!-- Quantity Controls -->
                                 <div class="flex items-center gap-2">
+                                    <label for="quantity_{{ $cartItem['id'] }}" class="text-sm text-gray-600">Quantity:</label>
                                     <input
+                                        id="quantity_{{ $cartItem['id'] }}"
                                         type="number"
-                                        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        wire:change="updateQuantity('{{$cartItem['id']}}',$event.target.value)"
-                                        value="{{$cartItem['quantity']}}"
-                                        aria-label="Update quantity"
-                                        step="1"
+                                        class="w-20 text-center p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                                        wire:change="updateQuantity('{{ $cartItem['id'] }}', $event.target.value)"
+                                        value="{{ $cartItem['quantity'] }}"
                                         min="1"
+                                        step="1"
+                                        disabled
                                     />
-
                                 </div>
 
-                                <!-- Price Display -->
-                                <div class="text-xl font-bold text-gray-900 flex items-center flex-col-reverse">
-                                    <span class="text-xs bg-green-500 text-white p-1 rounded-md">{{$cartItem['tax_rate']}}% tax</span>
-                                    <p>GH₵{{ number_format($cartItem['total'], 2) }}</p>
+                                <!-- Price + Tax -->
+                                <div class="flex flex-col items-end">
+            <span class="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full mb-1">
+                {{ $cartItem['tax_rate'] }}% tax
+            </span>
+                                    <p class="text-xl font-bold text-gray-800">
+                                        GH₵{{ number_format($cartItem['total'], 2) }}
+                                    </p>
                                 </div>
                             </div>
-
                         </div>
+
                     @endforeach
                 @else
-                    <p class="mt-5 text-center font-semibold text-xl text-gray-600">
-                        No items in Basket
-                    </p>
+                    <div class="flex flex-col items-center justify-center h-full py-10 text-gray-600">
+                        <i class="fa-solid fa-basket-shopping text-[10rem] text-gray-400 mb-4"></i>
+                        <h2 class="text-2xl font-semibold">Your Basket is Empty</h2>
+                        <p class="text-sm text-gray-500 mt-1">Scan or add products to start a new sale</p>
+                    </div>
+
                 @endif
             </div>
 
@@ -92,6 +112,8 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <script>
         const selectEl = document.querySelector('select')
         function confirmClear() {
@@ -133,3 +155,25 @@
     </script>
 
 </div>
+
+
+@script
+<script>
+
+    let barcode = '';
+    let lastTime = 0;
+    document.addEventListener('keydown', e => {
+        const now = Date.now();
+
+        if (now - lastTime > 50) barcode = '';
+        lastTime = now;
+        if (e.key === 'Enter') {
+            if (barcode.length >= 6 && !barcode.includes(' ')) {
+                $wire.addProduct(barcode.trim())
+            }
+            barcode = '';
+        } else barcode += e.key;
+    });
+</script>
+@endscript
+

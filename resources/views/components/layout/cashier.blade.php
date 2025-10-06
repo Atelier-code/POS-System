@@ -7,10 +7,17 @@
             <header class="bg-white shadow sticky top-0 h-16 z-50 px-[5rem] flex items-center justify-between">
                 <!-- Logo and Search -->
                 <div class="flex items-center w-1/3 gap-12">
-                    <a href="/cashier/dashboard" class="text-2xl font-bold text-dark text-center">
-                        MIGHTY JESUS<span class="text-orange-500"> POS</span>
+                    <a href="{{route("cashier.dashboard")}}" class="flex items-center space-x-3 p-3 group">
+                        <div class="w-12 h-12 bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-orange-500 ">MIGHTY JESUS</h1>
+                            <p class="text-sm text-gray-800 font-medium">POS System</p>
+                        </div>
                     </a>
-
                 </div>
 
                 <!-- User Info -->

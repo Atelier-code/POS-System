@@ -10,8 +10,32 @@ class Sale extends Model
 {
     /** @use HasFactory<\Database\Factories\SaleFactory> */
     use HasFactory;
-    use HasUuids;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected static function generateId(): string
+    {
+        $prefix = 'ORD';
+
+        $datePart = now()->format('dmy');
+
+
+        $number = str_pad(mt_rand(1, 999), 3, '0', STR_PAD_LEFT);
+
+
+        $letter = chr(mt_rand(65, 90));
+
+        return $prefix . $datePart . $number . $letter;
+    }
+
+
+    protected static function booted(): void
+    {
+        static::creating(function ($sale) {
+            $sale->id = static::generateId();
+        });
+    }
     public $guarded =[];
 
 

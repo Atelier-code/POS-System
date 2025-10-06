@@ -19,10 +19,10 @@
         </div>
 
         <!-- Form Section -->
-        <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-xl  border border-gray-100 overflow-hidden">
             <form id="productForm" action="{{route('admin.store.products')}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                
+
                 <div class="p-8">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Image Upload Section -->
@@ -48,6 +48,15 @@
                                     </svg>
                                     Choose Image
                                 </button>
+
+                                <div class="flex flex-col items-center justify-center mt-[3rem]">
+                                    <p class="text-gray-600 mb-3 text-sm">Scan barcode to add</p>
+
+                                    <div id="barcode-status" class="w-56 h-14 rounded-xl flex items-center justify-center text-white font-medium bg-red-500 transition-colors duration-500" >
+                                        No Barcode Detected
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -61,11 +70,11 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label for="cost_price" class="block text-sm font-semibold text-gray-700 mb-2">Cost Price (GH₵) *</label>
-                                    <input type="number" id="cost_price" name="cost_price" step="0.01" placeholder="0.00" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" required>
+                                    <input type="number" id="cost_price" name="cost_price" step="0.1" placeholder="0.00" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" required>
                                 </div>
                                 <div>
                                     <label for="selling_price" class="block text-sm font-semibold text-gray-700 mb-2">Selling Price (GH₵) *</label>
-                                    <input type="number" id="selling_price" name="selling_price" step="0.01" placeholder="0.00" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" required>
+                                    <input type="number" id="selling_price" name="selling_price" step="0.1" placeholder="0.00" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" required>
                                 </div>
                             </div>
 
@@ -76,15 +85,17 @@
                                 </div>
                                 <div>
                                     <label for="tax_rate" class="block text-sm font-semibold text-gray-700 mb-2">Tax Rate (%) *</label>
-                                    <input type="number" id="tax_rate" name="tax_rate" step="0.01" placeholder="0.00" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" required>
+                                    <input type="number" id="tax_rate" name="tax_rate" step="0.1" placeholder="0.00" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" required>
                                 </div>
                             </div>
 
                             <div>
                                 <label for="low_stock" class="block text-sm font-semibold text-gray-700 mb-2">Low Stock Alert *</label>
-                                <input type="number" id="low_stock" name="low_stock" placeholder="0" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" required>
+                                <input type="number" id="low_stock" name="low_stock" placeholder="0" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out" >
                                 <p class="mt-1 text-sm text-gray-500">Set the minimum stock level to trigger low stock alerts</p>
                             </div>
+
+                            <input name="barcode" type="text" class="bg-red-500 hidden "  id="barcode" >
 
                             <!-- Profit Preview -->
                             <div class="profit-preview bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4">
@@ -121,14 +132,16 @@
     </div>
 
     <script>
+        const barcodeEl = document.getElementById('barcode');
+        const  barcodeRecievedEl = document.getElementById("barcode-status");
         function previewImage(event) {
             const preview = document.getElementById('imagePreview');
             const file = event.target.files[0];
-            
+
             if (file) {
                 // Clear existing content
                 preview.innerHTML = '';
-                
+
                 // Create new image element
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
@@ -143,16 +156,16 @@
             const sellingPrice = parseFloat(document.getElementById('selling_price').value) || 0;
             const profit = sellingPrice - costPrice;
             const margin = costPrice > 0 ? (profit / costPrice) * 100 : 0;
-            
+
             // Update profit preview
             const profitSpan = document.querySelector('.profit-amount');
             const marginSpan = document.querySelector('.margin-amount');
-            
+
             if (profitSpan) {
                 profitSpan.textContent = `GH₵${profit.toFixed(2)}`;
                 profitSpan.className = `profit-amount font-semibold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`;
             }
-            
+
             if (marginSpan) {
                 marginSpan.textContent = `${margin.toFixed(1)}%`;
                 marginSpan.className = `margin-amount font-semibold ${margin >= 0 ? 'text-green-600' : 'text-red-600'}`;
@@ -163,7 +176,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const costPriceInput = document.getElementById('cost_price');
             const sellingPriceInput = document.getElementById('selling_price');
-            
+
             if (costPriceInput && sellingPriceInput) {
                 costPriceInput.addEventListener('input', calculateProfit);
                 sellingPriceInput.addEventListener('input', calculateProfit);
@@ -188,11 +201,53 @@
             });
         }
 
+        function barcodeEmpty(){
+            Swal.fire({
+                title: 'Error!',
+                text: "No barcode provided yet",
+                icon: 'error',
+                timer: 3000, // Closes the alert after 3 seconds (3000 ms)
+                timerProgressBar: true, // Displays a progress bar
+            })
+        }
+
         // Form submission handler
         document.getElementById('productForm').addEventListener('submit', function (event) {
             event.preventDefault();
+
+            if (barcodeEl.value ==="" || !barcodeEl.value){
+                barcodeEmpty()
+                return
+            }
+
             confirmSubmit();
         });
+
+
+
+        let barcode = '';
+        let lastTime = 0;
+        document.addEventListener('keydown', e => {
+            const now = Date.now();
+            const barcodeEl = document.getElementById('barcode');
+
+
+            if (now - lastTime > 50) barcode = '';
+            lastTime = now;
+            if (e.key === 'Enter') {
+
+                if (barcode.length >= 6 && !barcode.includes(' ')) {
+                    barcodeEl.value = barcode;
+                    barcodeRecievedEl.classList.remove("bg-red-500")
+                    barcodeRecievedEl.classList.add("bg-green-500")
+                    barcodeRecievedEl.textContent="Barcode Read"
+                }
+                barcode = '';
+            } else barcode += e.key;
+        });
+
+
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -224,4 +279,21 @@
             });
         </script>
     @endif
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let errorList = `{!! implode('<br>', $errors->all()) !!}`;
+                Swal.fire({
+                    title: 'Validation Error!',
+                    html: errorList,
+                    icon: 'error',
+                    timer: 4000,
+                    timerProgressBar: true,
+                    showConfirmButton: true
+                });
+            });
+        </script>
+    @endif
+
 </x-layout.admin>

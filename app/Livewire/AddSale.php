@@ -18,9 +18,10 @@ class AddSale extends Component
 
 
 
-    public function addProduct($id)
+    public function addProduct($barcode)
     {
-        $product = Product::find($id);
+        $product = Product::where('barcode', $barcode)->first();
+
 
         if (!$product) {
             $this->dispatch(
@@ -58,10 +59,9 @@ class AddSale extends Component
 
     public function removeProduct($id)
     {
-        $this->cartItems = array_filter($this->cartItems, function ($item) use ($id) {
+        $this->cartItems = array_values(array_filter($this->cartItems, function ($item) use ($id) {
             return $item['id'] != $id;
-        });
-
+        }));
 
         $this->updateTotals();
     }

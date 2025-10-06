@@ -8,7 +8,9 @@ use App\Models\Returns;
 use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -158,22 +160,31 @@ class AdminController extends Controller
             'quantity' => 'required|integer|min:0',
             'tax_rate' => 'nullable|numeric|min:0|max:100', // Optional field
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB
-            'low_stock'=>'required'
+            'low_stock'=>'nullable',
+            'barcode' => 'required|string|unique:products,barcode',
         ]);
 
-        // Handle image upload if provided
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads/products', 'public');
-            $validatedData['image'] = '/storage/' . $imagePath;
-        }
+        try {
+            return DB::transaction(function () use ($request, $validatedData) {
+                if ($request->hasFile('image')) {
+                    $imagePath = $request->file('image')->store('uploads/products', 'public');
+                    $validatedData['image'] = '/storage/' . $imagePath;
+                }
 
-        // Create the product
-        $product = Product::create($validatedData);
+                $product = Product::create($validatedData);
 
-        if ($product) {
-            return redirect()->back()->with('success', 'Product Added Successfully');
-        } else {
-            return redirect()->back()->with('error', 'Product Not Added Successfully');
+                if (! $product) {
+                    throw new \Exception('Product creation failed');
+                }
+
+                return redirect()->back()->with('success', 'Product Added Successfully');
+            });
+        } catch (\Exception $e) {
+            // Delete uploaded image if something failed
+            if (!empty($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            return redirect()->back()->with('error', 'Product Not Added: ' . $e->getMessage());
         }
     }
 
