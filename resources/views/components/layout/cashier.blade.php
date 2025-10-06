@@ -1,6 +1,4 @@
 <x-app>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <body class="bg-slate-100 h-screen" x-data="{ show: false }">
         <div class="w-full h-screen">
             <!-- Navbar -->

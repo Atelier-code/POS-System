@@ -1,5 +1,5 @@
-<div class=" mx-auto p-6  w-full">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Employee Sales</h2>
+<div class=" mx-auto p-6 w-full">
+{{--    <h2 class="text-2xl font-bold text-gray-800 mb-6">Employee Sales</h2>--}}
 
     <div class="bg-white rounded-md shadow overflow-x-auto">
         <table class="min-w-full border-separate" style="border-spacing: 0">

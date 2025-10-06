@@ -30,7 +30,7 @@
             <div class="space-y-6">
                 <livewire:total-revenue-card id="{{auth()->user()->id}}" />
                 <livewire:total-sales-card id="{{auth()->user()->id}}" />
-                <livewire:display-points  />
+
             </div>
         </aside>
 
@@ -39,7 +39,17 @@
             <div class="flex flex-col gap-6">
                 <!-- Revenue Chart -->
                 <section class="w-full">
-                    <livewire:employee-sales id="{{auth()->user()->id}}" />
+                    <livewire:display-points  />
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="px-6 py-3 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Performance & Activity</h3>
+                            <p class="text-sm text-gray-600 mt-1">Your sales and performance data</p>
+                        </div>
+                        <div class="p">
+                            <livewire:employee-sales id="{{auth()->user()->id}}"/>
+                        </div>
+                    </div>
+
                 </section>
             </div>
         </main>

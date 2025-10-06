@@ -6,7 +6,7 @@
                 <h1 class="text-2xl font-bold text-gray-900">Employee Details</h1>
                 <p class="text-gray-600 mt-1">View employee information and performance</p>
             </div>
-            
+
             <div class="flex items-center space-x-3">
                 <a href="{{ route('admin.edit.user', $user->id) }}" class="inline-flex items-center px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-lg transition-colors">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,8 +31,8 @@
                     <div class="bg-gradient-to-r from-slate-600 to-slate-700 h-32 relative">
                         <div class="absolute -bottom-12 left-6">
                             <div class="relative">
-                                <img src="{{ asset($user->image) }}" 
-                                     alt="{{ $user->name }}" 
+                                <img src="{{ asset($user->image) }}"
+                                     alt="{{ $user->name }}"
                                      class="w-24 h-24 rounded-full border-4 border-white object-cover shadow-lg">
                                 <!-- Online indicator -->
                                 <div class="absolute bottom-1 right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
@@ -71,7 +71,7 @@
                         <h3 class="text-lg font-semibold text-gray-900">Performance & Activity</h3>
                         <p class="text-sm text-gray-600 mt-1">Employee sales and performance data</p>
                     </div>
-                    <div class="p-6">
+                    <div class="p">
                         <livewire:employee-sales id="{{$user->id}}"/>
                     </div>
                 </div>
