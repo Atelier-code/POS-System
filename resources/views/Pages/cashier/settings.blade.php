@@ -1,4 +1,6 @@
 <x-layout.cashier>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <div class=" bg-white">
         <div class="w-full flex flex-col xl:flex-row">
             <!-- Profile Image Section -->
@@ -115,7 +117,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('editForm').submit(); // Submit the form after confirmation
+                    document.getElementById('editForm').submit();
                 }
             });
         }
