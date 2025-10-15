@@ -12,7 +12,7 @@
                 <p class="text-xs text-gray-400">Products returned</p>
             </div>
         </div>
-        
+
         <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors" @click="show = !show">
             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
@@ -36,8 +36,8 @@
     </div>
 
     <!-- Dropdown Menu -->
-    <div class="absolute top-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50 min-w-[120px]" 
-         x-show="show" 
+    <div class="absolute top-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50 min-w-[120px]"
+         x-show="show"
          x-transition:enter="transition ease-out duration-100"
          x-transition:enter-start="transform opacity-0 scale-95"
          x-transition:enter-end="transform opacity-100 scale-100"
@@ -45,20 +45,20 @@
          x-transition:leave-start="transform opacity-100 scale-100"
          x-transition:leave-end="transform opacity-0 scale-95"
          @click.away="show = false">
-        <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors" 
-                @click="show = false" 
+        <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                @click="show = false"
                 wire:click="day">
             Today
         </button>
-        <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors" 
-                @click="show = false" 
+        <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                @click="show = false"
+                wire:click="week">
+            This Week
+        </button>
+        <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                @click="show = false"
                 wire:click="month">
             This Month
-        </button>
-        <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors" 
-                @click="show = false" 
-                wire:click="year">
-            This Year
         </button>
     </div>
 </div>

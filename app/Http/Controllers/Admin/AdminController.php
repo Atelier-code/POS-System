@@ -286,5 +286,10 @@ class AdminController extends Controller
         ]);
     }
 
+    public function export()
+    {
+        return view('pages.admin.export-data');
+    }
+
 
 }

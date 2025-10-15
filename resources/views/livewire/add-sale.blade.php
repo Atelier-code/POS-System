@@ -43,7 +43,6 @@
                                         value="{{ $cartItem['quantity'] }}"
                                         min="1"
                                         step="1"
-                                        disabled
                                     />
                                 </div>
 

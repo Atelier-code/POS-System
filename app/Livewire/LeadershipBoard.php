@@ -10,7 +10,7 @@ class LeadershipBoard extends Component
 {
     use WithPagination;
 
-    public $timeframe = 'daily'; // 'daily' or 'monthly'
+    public $timeframe = 'daily';
 
     public function setTimeframe($timeframe)
     {
@@ -20,18 +20,23 @@ class LeadershipBoard extends Component
 
     public function render()
     {
-        // Simple: just rank by points
-        $rankedUsers = User::orderBy('points', 'desc')->paginate(12);
+        // Rank users with points > 0
+        $rankedUsers = User::where('points', '>', 0)
+            ->orderBy('points', 'desc')
+            ->paginate(12);
 
-        // Get top 3 for podium
-        $topThree = User::orderBy('points', 'desc')->take(3)->get();
+        // Get top 3 for podium with points > 0
+        $topThree = User::where('points', '>', 0)
+            ->orderBy('points', 'desc')
+            ->take(3)
+            ->get();
 
-        // Get total users
-        $totalUsers = User::count();
+        // Get total users with points > 0
+        $totalUsers = User::where('points', '>', 0)->count();
 
-        // Get current user's rank
+        // Get current user's rank (null if points = 0)
         $userRank = null;
-        if (auth()->check()) {
+        if (auth()->check() && auth()->user()->points > 0) {
             $userRank = User::where('points', '>', auth()->user()->points)->count() + 1;
         }
 
@@ -40,6 +45,7 @@ class LeadershipBoard extends Component
             'topThree' => $topThree,
             'totalUsers' => $totalUsers,
             'userRank' => $userRank,
+            'total' => User::all()->count(),
         ]);
     }
 }

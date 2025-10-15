@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class TotalSalesCard extends Component
 {
-    public $userId = null; // Renamed for clarity
+    public $userId = null;
     public $salesCount = 0;
 
     public function mount($id = null)
@@ -17,31 +17,31 @@ class TotalSalesCard extends Component
         $this->day(); // Default to today's sales count
     }
 
+    // Today
     public function day()
     {
         $this->salesCount = Sale::whereDate('created_at', Carbon::today())
-            ->when($this->userId, function ($query) {
-                return $query->where('user_id', $this->userId);
-            })
+            ->when($this->userId, fn($query) => $query->where('user_id', $this->userId))
             ->count();
     }
 
+    // This Week
+    public function week()
+    {
+        $this->salesCount = Sale::whereBetween('created_at', [
+            Carbon::now()->startOfWeek(),
+            Carbon::now()->endOfWeek(),
+        ])
+            ->when($this->userId, fn($query) => $query->where('user_id', $this->userId))
+            ->count();
+    }
+
+    // This Month
     public function month()
     {
         $this->salesCount = Sale::whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
-            ->when($this->userId, function ($query) {
-                return $query->where('user_id', $this->userId);
-            })
-            ->count();
-    }
-
-    public function year()
-    {
-        $this->salesCount = Sale::whereYear('created_at', Carbon::now()->year)
-            ->when($this->userId, function ($query) {
-                return $query->where('user_id', $this->userId);
-            })
+            ->when($this->userId, fn($query) => $query->where('user_id', $this->userId))
             ->count();
     }
 

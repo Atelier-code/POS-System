@@ -17,31 +17,31 @@ class TotalRevenueCard extends Component
         $this->day(); // Default to today's revenue
     }
 
+    // Today
     public function day()
     {
         $this->revenue = Sale::whereDate('created_at', Carbon::today())
-            ->when($this->userId, function ($query) {
-                return $query->where('user_id', $this->userId);
-            })
+            ->when($this->userId, fn($query) => $query->where('user_id', $this->userId))
             ->sum('total');
     }
 
+    // This Week
+    public function week()
+    {
+        $this->revenue = Sale::whereBetween('created_at', [
+            Carbon::now()->startOfWeek(),
+            Carbon::now()->endOfWeek(),
+        ])
+            ->when($this->userId, fn($query) => $query->where('user_id', $this->userId))
+            ->sum('total');
+    }
+
+    // This Month
     public function month()
     {
         $this->revenue = Sale::whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
-            ->when($this->userId, function ($query) {
-                return $query->where('user_id', $this->userId);
-            })
-            ->sum('total');
-    }
-
-    public function year()
-    {
-        $this->revenue = Sale::whereYear('created_at', Carbon::now()->year)
-            ->when($this->userId, function ($query) {
-                return $query->where('user_id', $this->userId);
-            })
+            ->when($this->userId, fn($query) => $query->where('user_id', $this->userId))
             ->sum('total');
     }
 

@@ -180,7 +180,7 @@ class AddSale extends Component
         ]);
 
         $user = Auth::user();
-        $user->points += floor($sale->total) * 10;
+        $user->points += floor($sale->total) * 0.5;
         $user->save();
 
         foreach ($this->cartItems as $item) {
@@ -200,6 +200,7 @@ class AddSale extends Component
             "tax"=>$this->tax,
             "payment_option"=>$this->payment_option,
         ])
+
             ->setPaper('a4')
             ->setOption([
                 'dpi' => 300, // Higher DPI for better clarity
@@ -246,7 +247,7 @@ class AddSale extends Component
     public function render()
     {
         $products = [];
-        $this->updateTotals(); // Update totals on render
+        $this->updateTotals();
 
         if (strlen($this->search) < 2) {
             $products = Product::all();

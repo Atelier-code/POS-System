@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Cashier\CashierController;
 use App\Http\Controllers\Sessions;
+use App\Livewire\ExportData;
+use App\Livewire\ReturnView;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,12 +41,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
   Route::get("/admin/show/returns", [AdminController::class, 'returns'])->name('admin.returns');
 
+  Route::get("/admin/export-data", [AdminController::class,'export'])->name('admin.export.data');
+
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/cashier/dashboard', [CashierController::class, 'dashboard'])->name('cashier.dashboard');
     Route::get("/cashier/sale/create", [CashierController::class, 'createSale'])->name('cashier.create.sale');
-    Route::get("/cashier/sale/{sale}", \App\Livewire\ReturnView::class)->name('cashier.return');
+    Route::get("/cashier/sale/{sale}", ReturnView::class)->name('cashier.return');
     Route::get("/leaderboard", [CashierController::class, 'viewLeadershipBoard'])->name('leaderboard');
 });
 

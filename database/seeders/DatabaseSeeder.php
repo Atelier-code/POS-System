@@ -20,11 +20,11 @@ class DatabaseSeeder extends Seeder
 //        /*
 //        User::factory(10)->create();
 //        */
-//        User::factory()->create([
-//            'name' => 'Kephas Tetteh',
-//            'email' => 'tettehkephas@gmail.com',
-//            'role' => 'admin',
-//        ]);
+        User::factory()->create([
+            'name' => 'Kephas Tetteh',
+            'email' => 'tettehkephas@gmail.com',
+            'role' => 'admin',
+        ]);
 ////
 //        Product::factory(60)->create();
        Sale::factory(10)->create();

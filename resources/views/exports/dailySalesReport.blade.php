@@ -13,7 +13,6 @@
         </th>
     </tr>
     <tr>
-        <th>ID</th>
         <th>Product Name</th>
         <th>Quantity</th>
         <th>Price (₵)</th>
@@ -25,7 +24,6 @@
     <tbody>
     @foreach ($data as $item)
         <tr>
-            <td>{{ $item['id'] }}</td>
             <td>{{ $item['name'] }}</td>
             <td>{{ $item['quantity'] }}</td>
             <td>₵{{ number_format($item['price'], 2) }}</td>

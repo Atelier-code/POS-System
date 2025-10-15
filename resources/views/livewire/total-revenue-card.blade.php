@@ -52,13 +52,13 @@
         </button>
         <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 @click="show = false"
-                wire:click="month">
-            This Month
+                wire:click="week">
+            This Week
         </button>
         <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 @click="show = false"
-                wire:click="year">
-            This Year
+                wire:click="month">
+            This Month
         </button>
     </div>
 </div>

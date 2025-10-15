@@ -30,7 +30,7 @@
                 <div class="px-3 py-2">
                     <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
                 </div>
-                
+
                 <div class="space-y-1">
                     <x-nav-link
                         name="Dashboard"
@@ -82,12 +82,24 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                         </svg>
                     </x-nav-link>
+
+                    <x-nav-link
+                        name="Reports"
+                        :active="request()->is('admin/export-data')"
+                        url="/admin/export-data"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </x-nav-link>
+
+
                 </div>
 
             </div>
 
             <div class="fixed bottom-5 left-4 right-4 space-y-3">
-                <livewire:daily-sale-button/>
+{{--                <livewire:daily-sale-button/>--}}
                 <a href="{{route('logout')}}" class="group flex items-center justify-center w-full px-4 py-3 text-white bg-slate-700 hover:bg-slate-600 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                     <svg class="w-5 h-5 mr-2 group-hover:scale-105 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -99,7 +111,7 @@
         </aside>
 
 
-        <div class="lg:ml-72 bg-gray-50">
+        <div class="lg:ml-72 ">
             <!-- Modern Header -->
             <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
                 <div class="flex h-16 items-center justify-between px-6">
@@ -134,7 +146,7 @@
                                 <p class="text-xs text-gray-500 capitalize">{{ auth()->user()->role }}</p>
                             </div>
                             <div class="relative">
-                                <img src="{{asset(auth()->user()->image)}}" 
+                                <img src="{{asset(auth()->user()->image)}}"
                                      class="w-10 h-10 rounded-full object-cover border-2 border-gray-200 hover:border-slate-400 transition-colors cursor-pointer">
                                 <!-- Online indicator -->
                                 <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
